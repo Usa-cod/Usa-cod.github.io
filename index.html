@@ -1,0 +1,81 @@
+html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teste2 isaac</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input, textarea {
+            width: 100%; padding: 10px; margin: 10px 0;
+        }
+        button {
+            padding: 10px 15px; background: #4CAF50; color: white; border: none; border-radius: 5px;
+        }
+        .thank-you-message { display: none; }
+        .confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>teste2 isaac</h2>
+    <form id="feedbackForm" onsubmit="return showThankYouMessage()">
+        <input type="text" placeholder="Seu nome" required>
+        <input type="number" placeholder="Sua idade" required>
+        <textarea placeholder="O que achou do site?" required></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+    <div class="thank-you-message" id="thankYouMessage">Obrigado! Irei melhorar. <br> Ass: newtinho</div>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+    function showThankYouMessage() {
+        document.getElementById('feedbackForm').style.display = 'none';
+        document.getElementById('thankYouMessage').style.display = 'block';
+        createConfetti();
+        return false; // Impede o envio do formulário
+    }
+
+    function createConfetti() {
+        const colors = ['#FFC700', '#FF5733', '#C70039', '#900C3F', '#581845'];
+        for (let i = 0; i < 100; i++) {
+            const confettiPiece = document.createElement('div');
+            confettiPiece.style.position = 'absolute';
+            confettiPiece.style.width = '10px';
+            confettiPiece.style.height = '10px';
+            confettiPiece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confettiPiece.style.left = Math.random() * 100 + 'vw';
+            confettiPiece.style.animation = `fall ${Math.random() * 2 + 3}s forwards`;
+            confettiPiece.style.opacity = Math.random();
+            document.getElementById('confetti').appendChild(confettiPiece);
+            setTimeout(() => confettiPiece.remove(), 5000);
+        }
+    }
+
+    // CSS Animation for falling confetti
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes fall { 0% { transform: translateY(-100vh) rotate(0); } 100% { transform: translateY(100vh) rotate(360deg); } }`;
+    document.head.appendChild(style);
+</script>
+
+</body>
+</html>
