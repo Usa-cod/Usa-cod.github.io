@@ -1,88 +1,105 @@
+html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verdade ou Desafio</title>
+    <title>Lista de Tarefas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
         }
-        .container {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        h1 {
             text-align: center;
+            margin-top: 20px;
         }
-        input, button {
+        #task-input {
+            width: 300px;
             padding: 10px;
-            margin: 10px 0;
-            width: 100%;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        #add-task-btn {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        #add-task-btn:hover {
+            background-color: #218838;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        li {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 5px 0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .complete-btn {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+        .complete-btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Verdade ou Desafio?</h2>
-    <form id="gameForm" onsubmit="return handleSubmit()">
-        <label>
-            <input type="radio" name="choice" value="vdd" required> Verdade
-        </label>
-        <label>
-            <input type="radio" name="choice" value="desafio"> Desafio
-        </label>
-        <br>
-        <div id="truthQuestion" style="display:none;">
-            <label for="age">Quantos anos você tem?</label>
-            <input type="number" id="age" required>
-        </div>
-        <div id="challengeQuestion" style="display:none;">
-            <label for="challengeResponse">Eu te desafio a admitir que é idosa.</label>
-            <input type="text" id="challengeResponse" required>
-        </div>
-        <button type="submit">Enviar</button>
-    </form>
-    <div id="result" style="margin-top: 20px;"></div>
-</div>
+    <h1>Lista de Tarefas</h1>
+    <div style="text-align: center;">
+        <input type="text" id="task-input" placeholder="Adicione uma nova tarefa">
+        <button id="add-task-btn">Adicionar Tarefa</button>
+    </div>
 
-<script>
-    // Exibe a pergunta apropriada com base na escolha
-    document.querySelectorAll('input[name="choice"]').forEach((elem) => {
-        elem.addEventListener("change", function(event) {
-            const value = event.target.value;
-            document.getElementById('truthQuestion').style.display = value === 'vdd' ? 'block' : 'none';
-            document.getElementById('challengeQuestion').style.display = value === 'desafio' ? 'block' : 'none';
-        });
-    });
+    <ul id="task-list"></ul>
 
-    // Lógica para processar a resposta
-    function handleSubmit() {
-        const choice = document.querySelector('input[name="choice"]:checked').value;
-        const resultDiv = document.getElementById('result');
-
-        if (choice === 'vdd') {
-            const age = parseInt(document.getElementById('age').value);
-            if (age < 70) {
-                resultDiv.innerHTML = "Não, não, você está mentindo!";
-            } else {
-                resultDiv.innerHTML = "Milagre que você admitiu!";
+    <script>
+        document.getElementById("add-task-btn").onclick = function() {
+            const taskInput = document.getElementById("task-input");
+            const taskText = taskInput.value.trim();
+            if (taskText === "") {
+                alert("Por favor, insira uma tarefa.");
+                return;
             }
-        } else {
-            const challengeResponse = document.getElementById('challengeResponse').value;
-            resultDiv.innerHTML = "descupaa bebezinha!";
-        }
 
-        return false; // Impede o envio do formulário
-    }
-</script>
+            const li = document.createElement("li");
+            li.textContent = taskText;
 
+            const completeBtn = document.createElement("button");
+            completeBtn.textContent = "Concluído";
+            completeBtn.className = "complete-btn";
+            completeBtn.onclick = function() {
+                li.classList.toggle("completed");
+            };
+
+            li.appendChild(completeBtn);
+            document.getElementById("task-list").appendChild(li);
+            taskInput.value = "";
+        };
+    </script>
 </body>
 </html>
